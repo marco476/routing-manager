@@ -1,0 +1,25 @@
+{
+    "name": "marco476/routing-manager",
+    "type": "library",
+    "description": "PHP performance-oriented routing manager",
+    "keywords": ["routing","match route","generate routes","route manager"],
+    
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Marco Cante",
+            "email": "marco.cante.081@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=5.3.3"
+    },
+     "autoload": {
+        "files": ["src/Routing.php"]
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^4.0"
+    }
+}
+

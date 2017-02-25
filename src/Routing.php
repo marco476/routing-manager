@@ -78,7 +78,7 @@ class Routing
     public function matchRoute()
     {
         foreach ($this->routes as $route) {
-            if (preg_match($route['route'], $this->requestURI)) {
+            if (preg_match('~^\\' . $route['route'] . '$~', $this->requestURI)) {
                 return $route;
             }
         }

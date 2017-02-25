@@ -1,5 +1,5 @@
 # PHP performance-oriented Routing manager
-This library is a **PHP performance-oriented routing manager** working with routes setted as:
+This library is **PHP performance-oriented routing manager** working with routes setted as:
 
 * Array
 * YAML file
@@ -26,12 +26,12 @@ use Routing\Routing;
 $Routing = new Routing();
 
 $routeMatch = $Routing->setRoutes(array(
-    'homepage' => array(
-        'route'     => '/^\/$/', //Obligatory
+    'homepage' => array( //Name route
+        'route'     => '/', //MUST DEFINE!
         'controller'=> 'MyController',
         'action'    => 'MyAction',
         'extra1'    => 'extra1',
-        'extra2'    => array('extra2','beautiful')
+        'extra2'    => 'extra2'
     )
 ))->matchRoute();
 
@@ -61,7 +61,18 @@ if ($routeMatch) {
 }
 ```
 
-All routes setted **must** include a **route** array *key* with *regular expression* for matching the URI.
+And see a YML routes configuration file:
+
+```YML
+homepage: #Name route
+    route:      / #MUST DEFINE!
+    controller: MyController
+    action:     MyAction 
+    extra1:     extra1
+    extra2:     extra2
+```
+
+All routes setted **must** include a **route** array *key* for matching the URI.
 
 When you call **matchRoute** method, the library find a match with routes setted and URI.
 It return the **route matched** array if math with URI is Ok or **false** if not.

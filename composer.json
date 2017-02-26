@@ -16,7 +16,7 @@
         "php": ">=5.3.3"
     },
      "autoload": {
-        "files": ["src/Routing.php"]
+        "files": ["src/Routing.php", "src/ErrorHelper.php"]
     },
     "require-dev": {
         "phpunit/phpunit": "^4.0"

@@ -1,10 +1,10 @@
 <?php
 namespace Routing;
 
+use Routing\ErrorHelper;
+
 class Routing
 {
-    const NO_YAML_EXT = "The yaml php extension isn't install. You can install it with sudo apt-get install php-yaml or with PECL. For detail, see that: http://bd808.com/pecl-file_formats-yaml/ .";
-
     //Name of request URI.
     protected $requestURI;
 
@@ -16,19 +16,23 @@ class Routing
         $this->requestURI = !empty($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '/';
     }
 
-    //Set routes by a YML route file.
+    //Set routes by a YML routes file.
     public function setRoutesFromYml($routePath, $routeFile)
     {
         if (!extension_loaded('yaml')) {
-            trigger_error(self::NO_YAML_EXT, E_USER_ERROR);
+            throw new \Exception(ErrorHelper::NO_YAML_EXT);
         }
 
         $routesYmlFile = $routePath . '/' . $routeFile;
 
-        return !is_dir($routePath) || !file_exists($routesYmlFile) ? false : $this->setRoutes(yaml_parse_file($routesYmlFile));
+        if (!is_dir($routePath) || !file_exists($routesYmlFile)) {
+            throw new \Exception(ErrorHelper::YML_NO_DIR_OR_FILE);
+        }
+
+        return $this->setRoutes(yaml_parse_file($routesYmlFile));
     }
 
-    //Set routes by a array's routes.
+    //Set routes by an array of routes.
     public function setRoutes(array $routes)
     {
         foreach ($routes as $route) {

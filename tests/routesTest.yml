@@ -1,0 +1,5 @@
+homepage: #Name route
+    route:      / #Route matchable with URI
+    controller: IndexController #Controller invoked if matched
+    action:     showHomeAction #Action invoked if matched
+    params:     [extraParams] #Extra params for controller

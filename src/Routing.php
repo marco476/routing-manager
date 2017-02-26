@@ -29,7 +29,9 @@ class Routing
             throw new \Exception(ErrorHelper::YML_NO_DIR_OR_FILE);
         }
 
-        return $this->setRoutes(yaml_parse_file($routesYmlFile));
+        //Filesize is necessary, because without it, if yml is empty
+        //yaml_parse_file return a fatal error and not false!
+        return filesize($routesYmlFile) ? $this->setRoutes(yaml_parse_file($routesYmlFile)) : $this;
     }
 
     //Set routes by an array of routes.

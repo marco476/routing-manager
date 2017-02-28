@@ -1,9 +1,9 @@
 # PHP performance-oriented Routing manager
-This library is **PHP performance-oriented routing manager** working with routes setted as:
+This library is PHP **performance-oriented routing manager** working with routes setted in many ways: 
 
-* Array
+* PHP Array
 * YAML file
-* XML file (work in progress..)
+* XML file
 
 ## Installation
 
@@ -72,9 +72,52 @@ homepage: #Name route
     extra2:     extra2
 ```
 
-All routes setted **must** include a **route** array *key* for matching the URI.
-
-When you call **matchRoute** method, the library find a match with routes setted and URI.
-It return the **route matched** array if math with URI is Ok or **false** if not.
-
 > Note: If you want use a YAML file routes configuration, you must install the yaml php extension. You can install it with *sudo apt-get install php-yaml* or with *PECL*. For detail, [see that](http://bd808.com/pecl-file_formats-yaml/)
+
+See an example with XML:
+
+```PHP
+<?php
+//Into web/index.php.
+require_once __DIR__ . '/../vendor/autoload.php';
+use Routing\Routing;
+
+$Routing = new Routing();
+
+$routeMatch = $Routing->setRoutesFromXml(__DIR__, 'routes.xml')->matchRoute();
+
+if ($routeMatch) {
+    echo "Now I call {$routeMatch['controller']} controller!";
+} else {
+    echo "mmm.. what's wrong?";
+}
+```
+
+And see a XML routes configuration file:
+
+```XML
+<?xml version="1.0" encoding="UTF-8" ?>
+<root>
+	<node>
+		<name>homepage</name> <!--NAME ROUTE-->
+		<route>/</route> <!--MUST DEFINE-->
+		<controller>MyController</controller>
+		<action>MyAction</action>
+		<extra>Hello</extra>
+	</node>
+	<node>
+		<name>contacts</name> <!--NAME ROUTE-->
+		<route>/contacts</route> <!--MUST DEFINE-->
+		<controller>MyController2</controller>
+		<params>Hello1</params>
+		<extra>Hello2</extra>
+	</node>
+</root>
+```
+
+> Note: If you want use a XML file routes configuration, you must install the libxml php extension. You can [see that](http://php.net/manual/en/book.libxml.php)
+
+All routes setted **must** include a **route** *key/tag* for matching the URI.
+
+When you call **matchRoute** method, the library find a match with routes setted and URI present.
+It return the **route matched** array if math with URI is Ok or **false** if not.

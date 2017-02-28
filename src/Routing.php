@@ -1,7 +1,7 @@
 <?php
 namespace Routing;
 
-use Routing\ErrorHelper;
+use Routing\RoutingHelper;
 
 class Routing
 {
@@ -20,18 +20,36 @@ class Routing
     public function setRoutesFromYml($routePath, $routeFile)
     {
         if (!extension_loaded('yaml')) {
-            throw new \Exception(ErrorHelper::NO_YAML_EXT);
+            throw new \Exception(RoutingHelper::NO_YAML_EXT);
         }
 
         $routesYmlFile = $routePath . '/' . $routeFile;
 
         if (!is_dir($routePath) || !file_exists($routesYmlFile)) {
-            throw new \Exception(ErrorHelper::YML_NO_DIR_OR_FILE);
+            throw new \Exception(RoutingHelper::YML_OR_XML_NO_DIR_OR_FILE);
         }
 
         //Filesize is necessary, because without it, if yml is empty
         //yaml_parse_file return a fatal error and not false!
         return filesize($routesYmlFile) ? $this->setRoutes(yaml_parse_file($routesYmlFile)) : $this;
+    }
+
+    //Set routes by a XML routes file.
+    public function setRoutesFromXml($routePath, $routeFile)
+    {
+        if (!extension_loaded('libxml')) {
+            throw new \Exception(RoutingHelper::NO_XML_EXT);
+        }
+
+        $routesXmlFile = $routePath . '/' . $routeFile;
+
+        if (!is_dir($routePath) || !file_exists($routesXmlFile)) {
+            throw new \Exception(RoutingHelper::YML_OR_XML_NO_DIR_OR_FILE);
+        }
+
+        $xmlArray = RoutingHelper::fromXmlToArray($routesXmlFile);
+        
+        return !empty($xmlArray) ? $this->setRoutes($xmlArray) : $this;
     }
 
     //Set routes by an array of routes.

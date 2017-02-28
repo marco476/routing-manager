@@ -1,10 +1,13 @@
 <?php
 use PHPUnit\Framework\TestCase;
 use Routing\Routing;
-use Routing\ErrorHelper;
+use Routing\RoutingHelper;
 
 class RoutingTest extends TestCase
 {
+    const MSG_ERROR_YML_EXTENSION = "You must enable YAML PHP extension for start this method's test.\n You can install it with sudo apt-get install php-yaml or with PECL. For detail, see that: http://bd808.com/pecl-file_formats-yaml/ .";
+    const MSR_ERROR_XML_EXTENSION = "You must enable libxml extension for start this method's test.\nFor detail, see that: http://php.net/manual/en/book.libxml.php .";
+
     //When I get a new Routing istance, the routes
     //aren't setted.
     public function testRoutesEmptyOnStart()
@@ -152,59 +155,69 @@ class RoutingTest extends TestCase
             $dirName = '/subDir/dirExample';
             $ymlFile = 'ymlExample.yml';
 
-            $this->expectExceptionMessage(ErrorHelper::NO_YAML_EXT);
+            $this->expectExceptionMessage(RoutingHelper::NO_YAML_EXT);
             $Routing->setRoutesFromYml($dirName, $ymlFile);
         } else {
             $expectBool = true;
         }
 
         $this->assertEquals($expectBool, $extension);
+        return $extension;
     }
 
-    public function testNotFoudDirSetRoutesFromYml()
+    /**
+     * @depends testYmlExtensionSetRoutesFromYml
+     */
+    public function testNotFoudDirSetRoutesFromYml($yamlExtensionEnabled)
     {
-        if (extension_loaded('yaml')) {
+        if ($yamlExtensionEnabled) {
             $dirName = '/subDir/dirNotExist';
             $ymlFile = 'ymlExample.yml';
 
             $Routing = new Routing();
 
-            $this->expectExceptionMessage(ErrorHelper::YML_NO_DIR_OR_FILE);
+            $this->expectExceptionMessage(RoutingHelper::YML_NO_DIR_OR_FILE);
             $Routing->setRoutesFromYml($dirName, $ymlFile);
         } else {
-            print "You must enable YAML PHP extension for start this method's test.\n 
-                You can install it with sudo apt-get install php-yaml or with PECL. For detail, see that: http://bd808.com/pecl-file_formats-yaml/ .";
+            print self::MSG_ERROR_YML_EXTENSION;
         }
     }
 
-    public function testNotFoudFileSetRoutesFromYml()
+    /**
+     * @depends testYmlExtensionSetRoutesFromYml
+     */
+    public function testNotFoudFileSetRoutesFromYml($yamlExtensionEnabled)
     {
-        if (extension_loaded('yaml')) {
+        if ($yamlExtensionEnabled) {
             $dirName = __DIR__;
             $ymlFile = 'ymlExample.yml';
 
             $Routing = new Routing();
 
-            $this->expectExceptionMessage(ErrorHelper::YML_NO_DIR_OR_FILE);
+            $this->expectExceptionMessage(RoutingHelper::YML_NO_DIR_OR_FILE);
             $Routing->setRoutesFromYml($dirName, $ymlFile);
         } else {
-            print "You must enable YAML PHP extension for start this method's test.\n 
-                You can install it with sudo apt-get install php-yaml or with PECL. For detail, see that: http://bd808.com/pecl-file_formats-yaml/ .";
+            print self::MSG_ERROR_YML_EXTENSION;
         }
     }
 
-    public function validSetRoutesFromYml()
+    /**
+     * @depends testYmlExtensionSetRoutesFromYml
+     */
+    public function testValidSetRoutesFromYml($yamlExtensionEnabled)
     {
-        if (extension_loaded('yaml')) {
-            $dirName = __DIR__;
-            $ymlFile = 'routesTest.yml';
+        if ($yamlExtensionEnabled) {
+            $dirName = __DIR__ . '/yml';
+            $ymlFile = 'routesValidTest.yml';
 
             $expect = array(
                 0 => array(
                     'route' => '/',
                     'controller' => 'IndexController',
                     'action' => 'showHomeAction',
-                    'params' => 'extraParams'
+                    'params' => array(
+                        0 => 'extraParams'
+                    )
                 )
             );
 
@@ -213,8 +226,31 @@ class RoutingTest extends TestCase
 
             $this->assertEquals($expect, $Routing->getRoutes());
         } else {
-            print "You must enable YAML PHP extension for start this method's test.\n 
-                You can install it with sudo apt-get install php-yaml or with PECL. For detail, see that: http://bd808.com/pecl-file_formats-yaml/ .";
+            print self::MSG_ERROR_YML_EXTENSION;
         }
     }
+
+    /**
+     * @depends testYmlExtensionSetRoutesFromYml
+     */
+    public function testEmptySetRoutesFromYml($yamlExtensionEnabled)
+    {
+        if ($yamlExtensionEnabled) {
+            $dirName = __DIR__ . '/yml';
+            $ymlFile = 'routesEmptyTest.yml';
+
+            $expect = array();
+
+            $Routing = new Routing();
+            $Routing->setRoutesFromYml($dirName, $ymlFile);
+
+            $this->assertEquals($expect, $Routing->getRoutes());
+        } else {
+            print self::MSG_ERROR_YML_EXTENSION;
+        }
+    }
+
+    /* ------------------------------------------
+            setRoutesFromXml METHOD TESTS!
+       ------------------------------------------ */
 }

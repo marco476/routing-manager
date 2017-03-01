@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root>
+    <node>
+        <route>/</route>
+        <controller>MyController</controller>
+        <action>MyAction</action>
+        <extra>Hello</extra>
+    </node>
+    <node>
+        <route>/contacts</route>
+        <controller>MyController2</controller>
+        <params>Hello1</params>
+        <extra>Hello2</extra>
+    </node>
+</root>

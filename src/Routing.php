@@ -77,7 +77,7 @@ class Routing
         return $this->routes;
     }
 
-    //Match the URI from the routes setted.
+    //Match the URI by routes setted.
     public function matchRoute()
     {
         foreach ($this->routes as $route) {

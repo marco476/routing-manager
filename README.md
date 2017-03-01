@@ -99,15 +99,13 @@ And see a XML routes configuration file:
 <?xml version="1.0" encoding="UTF-8" ?>
 <root>
 	<node>
-		<name>homepage</name> <!--NAME ROUTE-->
-		<route>/</route> <!--MUST DEFINE-->
+		<route>/</route>
 		<controller>MyController</controller>
 		<action>MyAction</action>
 		<extra>Hello</extra>
 	</node>
 	<node>
-		<name>contacts</name> <!--NAME ROUTE-->
-		<route>/contacts</route> <!--MUST DEFINE-->
+		<route>/contacts</route>
 		<controller>MyController2</controller>
 		<params>Hello1</params>
 		<extra>Hello2</extra>

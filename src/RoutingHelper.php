@@ -11,7 +11,7 @@ class RoutingHelper
     public static function fromXmlToArray($routesXmlFile)
     {
         $routesFromXmlToArray = array();
-        $xml = simplexml_load_string(file_get_contents($routesXmlFile), "SimpleXMLElement", LIBXML_NOCDATA);
+        $xml = simplexml_load_string(file_get_contents($routesXmlFile));
 
         if (!$xml) {
             return $routesFromXmlToArray;
@@ -19,20 +19,19 @@ class RoutingHelper
 
         $jsonXmlDecode = json_decode(json_encode($xml), true);
 
-        //Transform a Xml structure into this library structure like
+        //Transform a Xml structure
         foreach ($jsonXmlDecode['node'] as $node) {
             if (empty($node['route'])) {
                 continue;
             }
 
-            $nodeName = !empty($node['name']) ? $node['name'] : 'unknow';
             $nodeFormat = array();
 
             foreach (array_keys($node) as $key) {
                 $nodeFormat[$key] = $node[$key];
             }
 
-            $routesFromXmlToArray[$nodeName] = $nodeFormat;
+            $routesFromXmlToArray[] = $nodeFormat;
         }
 
         return $routesFromXmlToArray;

@@ -375,52 +375,79 @@ class RoutingTest extends TestCase
         $this->assertFalse($Routing->matchRoute());
     }
 
-    public function testMatchRouteMatchByYmlRoutes()
+    /**
+     * @depends testYmlExtensionSetRoutesFromYml
+     */
+    public function testMatchRouteMatchByYmlRoutes($yamlExtensionEnabled)
     {
-        $Routing = new Routing();
+        if ($yamlExtensionEnabled) {
+            $Routing = new Routing();
 
-        $expect = array(
+            $expect = array(
             'route' => '/',
             'controller' => 'IndexController',
             'action' => 'showHomeAction',
             'params' => array(
                 0 => 'extraParams'
-            )
-        );
+            ));
 
-        $matchedRoute = $Routing->setRoutesFromYml(__DIR__ . '/yml', 'routesValidTest.yml')->matchRoute();
-        $this->assertEquals($expect, $matchedRoute);
+            $matchedRoute = $Routing->setRoutesFromYml(__DIR__ . '/yml', 'routesValidTest.yml')->matchRoute();
+            $this->assertEquals($expect, $matchedRoute);
+        } else {
+            print self::MSG_ERROR_YML_EXTENSION;
+        }
     }
 
-    public function testMatchRouteNotMatchByYmlRoutes()
+    /**
+     * @depends testYmlExtensionSetRoutesFromYml
+     */
+    public function testMatchRouteNotMatchByYmlRoutes($yamlExtensionEnabled)
     {
-        $Routing = new Routing('/routeNotConsideredByYml');
+        if ($yamlExtensionEnabled) {
+            $Routing = new Routing('/routeNotConsideredByYml');
 
-        $matchedRoute = $Routing->setRoutesFromYml(__DIR__ . '/yml', 'routesValidTest.yml')->matchRoute();
-        $this->assertFalse($matchedRoute);
+            $matchedRoute = $Routing->setRoutesFromYml(__DIR__ . '/yml', 'routesValidTest.yml')->matchRoute();
+            $this->assertFalse($matchedRoute);
+        } else {
+            print self::MSG_ERROR_YML_EXTENSION;
+        }
     }
 
-    public function testMatchRouteMatchByXmlRoutes()
+    /**
+     * @depends testXmlExtensionSetRoutesFromXml
+     */
+    public function testMatchRouteMatchByXmlRoutes($xmlExtensionEnabled)
     {
-        $Routing = new Routing();
+        if ($xmlExtensionEnabled) {
+            $Routing = new Routing();
 
-        $expect = array(
+            $expect = array(
             'route' => '/',
             'controller' => 'MyController',
             'action' => 'MyAction',
             'extra' => 'Hello'
-        );
+            );
 
-        $matchedRoute = $Routing->setRoutesFromXml(__DIR__ . '/xml', 'routesValidTest.xml')->matchRoute();
-        $this->assertEquals($expect, $matchedRoute);
+            $matchedRoute = $Routing->setRoutesFromXml(__DIR__ . '/xml', 'routesValidTest.xml')->matchRoute();
+            $this->assertEquals($expect, $matchedRoute);
+        } else {
+            print self::MSG_ERROR_XML_EXTENSION;
+        }
     }
 
-    public function testMatchRouteNotMatchByXmlRoutes()
+    /**
+     * @depends testXmlExtensionSetRoutesFromXml
+     */
+    public function testMatchRouteNotMatchByXmlRoutes($xmlExtensionEnabled)
     {
-        $Routing = new Routing('/routeNotConsideredByXml');
+        if ($xmlExtensionEnabled) {
+            $Routing = new Routing('/routeNotConsideredByXml');
 
-        $matchedRoute = $Routing->setRoutesFromXml(__DIR__ . '/xml', 'routesValidTest.xml')->matchRoute();
-        $this->assertFalse($matchedRoute);
+            $matchedRoute = $Routing->setRoutesFromXml(__DIR__ . '/xml', 'routesValidTest.xml')->matchRoute();
+            $this->assertFalse($matchedRoute);
+        } else {
+            print self::MSG_ERROR_XML_EXTENSION;
+        }
     }
 
     public function testMatchRouteMatchByArrayRoutes()

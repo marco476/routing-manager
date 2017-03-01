@@ -1,3 +1,8 @@
+[![Build Status](https://travis-ci.org/marco476/routing-manager.svg?branch=master)](https://travis-ci.org/marco476/routing-manager)
+[![Packagist](https://img.shields.io/packagist/v/marco476/routing-manager.svg)](https://packagist.org/packages/marco476/routing-manager)
+[![Packagist](https://img.shields.io/packagist/l/marco476/routing-manager.svg)](https://packagist.org/packages/marco476/routing-manager)
+[![PHP Version](https://img.shields.io/badge/PHP-%3E%3D5.6-blue.svg)](http://php.net/manual/en/migration56.new-features.php)
+
 # PHP performance-oriented Routing manager
 This library is PHP **performance-oriented routing manager** working with routes setted in many ways: 
 

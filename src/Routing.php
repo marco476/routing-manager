@@ -11,9 +11,16 @@ class Routing
     //List of all routes that can match with URI.
     protected $routes = array();
 
-    public function __construct()
+    //You can set a custom URI to match with $routes
+    public function __construct($uri = false)
     {
-        $this->requestURI = !empty($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '/';
+        if (!empty($uri)) {
+            $definiteveURI = $uri;
+        } else {
+            $definiteveURI = !empty($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '/';
+        }
+
+        $this->requestURI = $definiteveURI;
     }
 
     //Set routes by a YML routes file.

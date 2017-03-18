@@ -1,7 +1,6 @@
 <?php
 use PHPUnit\Framework\TestCase;
 use Routing\Routing;
-use Routing\RoutingHelper;
 
 class RoutingTest extends TestCase
 {
@@ -155,7 +154,7 @@ class RoutingTest extends TestCase
             $dirName = '/subDir/dirExample';
             $ymlFile = 'ymlExample.yml';
 
-            $this->expectExceptionMessage(RoutingHelper::NO_YAML_EXT);
+            $this->expectExceptionMessage($Routing->helper->NO_YAML_EXT);
             $Routing->setRoutesFromYml($dirName, $ymlFile);
         } else {
             $expectBool = true;
@@ -176,7 +175,7 @@ class RoutingTest extends TestCase
 
             $Routing = new Routing();
 
-            $this->expectExceptionMessage(RoutingHelper::YML_OR_XML_NO_DIR_OR_FILE);
+            $this->expectExceptionMessage($Routing->helper->YML_OR_XML_NO_DIR_OR_FILE);
             $Routing->setRoutesFromYml($dirName, $ymlFile);
         } else {
             print self::MSG_ERROR_YML_EXTENSION;
@@ -194,7 +193,7 @@ class RoutingTest extends TestCase
 
             $Routing = new Routing();
 
-            $this->expectExceptionMessage(RoutingHelper::YML_OR_XML_NO_DIR_OR_FILE);
+            $this->expectExceptionMessage($Routing->helper->YML_OR_XML_NO_DIR_OR_FILE);
             $Routing->setRoutesFromYml($dirName, $ymlFile);
         } else {
             print self::MSG_ERROR_YML_EXTENSION;
@@ -265,7 +264,7 @@ class RoutingTest extends TestCase
             $dirName = '/subDir/dirExample';
             $xmlFile = 'xmlExample.xml';
 
-            $this->expectExceptionMessage(RoutingHelper::NO_XML_EXT);
+            $this->expectExceptionMessage($Routing->helper->NO_XML_EXT);
             $Routing->setRoutesFromXml($dirName, $xmlFile);
         } else {
             $expectBool = true;
@@ -286,7 +285,7 @@ class RoutingTest extends TestCase
 
             $Routing = new Routing();
 
-            $this->expectExceptionMessage(RoutingHelper::YML_OR_XML_NO_DIR_OR_FILE);
+            $this->expectExceptionMessage($Routing->helper->YML_OR_XML_NO_DIR_OR_FILE);
             $Routing->setRoutesFromXml($dirName, $xmlFile);
         } else {
             print self::MSG_ERROR_XML_EXTENSION;
@@ -304,7 +303,7 @@ class RoutingTest extends TestCase
 
             $Routing = new Routing();
 
-            $this->expectExceptionMessage(RoutingHelper::YML_OR_XML_NO_DIR_OR_FILE);
+            $this->expectExceptionMessage($Routing->helper->YML_OR_XML_NO_DIR_OR_FILE);
             $Routing->setRoutesFromXml($dirName, $xmlFile);
         } else {
             print self::MSG_ERROR_XML_EXTENSION;

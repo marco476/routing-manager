@@ -5,11 +5,11 @@ use Routing\RoutingHelper;
 
 class Routing
 {
+    //Helper class.
+    public $helper;
+    
     //Name of request URI.
     protected $requestURI;
-
-    //Helper class.
-    protected $helper;
 
     //List of all routes that can match with URI.
     protected $routes = array();
@@ -35,13 +35,13 @@ class Routing
     public function setRoutesFromYml($routePath, $routeFile)
     {
         if (!extension_loaded('yaml')) {
-            throw new \Exception($this->helper::NO_YAML_EXT);
+            throw new \Exception($this->helper->NO_YAML_EXT);
         }
 
         $routesYmlFile = $routePath . '/' . $routeFile;
 
         if (!is_dir($routePath) || !file_exists($routesYmlFile)) {
-            throw new \Exception($this->helper::YML_OR_XML_NO_DIR_OR_FILE);
+            throw new \Exception($this->helper->YML_OR_XML_NO_DIR_OR_FILE);
         }
 
         //Filesize is necessary, because without it, if yml is empty
@@ -53,13 +53,13 @@ class Routing
     public function setRoutesFromXml($routePath, $routeFile)
     {
         if (!extension_loaded('libxml')) {
-            throw new \Exception($this->helper::NO_XML_EXT);
+            throw new \Exception($this->helper->NO_XML_EXT);
         }
 
         $routesXmlFile = $routePath . '/' . $routeFile;
 
         if (!is_dir($routePath) || !file_exists($routesXmlFile)) {
-            throw new \Exception($this->helper::YML_OR_XML_NO_DIR_OR_FILE);
+            throw new \Exception($this->helper->YML_OR_XML_NO_DIR_OR_FILE);
         }
 
         $xmlArray = $this->helper->fromXmlToArray($routesXmlFile);

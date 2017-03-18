@@ -404,7 +404,8 @@ class RoutingTest extends TestCase
     public function testMatchRouteNotMatchByYmlRoutes($yamlExtensionEnabled)
     {
         if ($yamlExtensionEnabled) {
-            $Routing = new Routing('/routeNotConsideredByYml');
+            $Routing = new Routing();
+            $Routing->setRequestUri('/routeNotConsideredByYml');
 
             $matchedRoute = $Routing->setRoutesFromYml(__DIR__ . '/yml', 'routesValidTest.yml')->matchRoute();
             $this->assertFalse($matchedRoute);
@@ -441,7 +442,8 @@ class RoutingTest extends TestCase
     public function testMatchRouteNotMatchByXmlRoutes($xmlExtensionEnabled)
     {
         if ($xmlExtensionEnabled) {
-            $Routing = new Routing('/routeNotConsideredByXml');
+            $Routing = new Routing();
+            $Routing->setRequestUri('/routeNotConsideredByXml');
 
             $matchedRoute = $Routing->setRoutesFromXml(__DIR__ . '/xml', 'routesValidTest.xml')->matchRoute();
             $this->assertFalse($matchedRoute);
@@ -478,7 +480,8 @@ class RoutingTest extends TestCase
 
     public function testMatchRouteNotMatchByArrayRoutes()
     {
-        $Routing = new Routing('/routeNotConsideredByArray');
+        $Routing = new Routing();
+        $Routing->setRequestUri('/routeNotConsideredByArray');
 
         $routeMatch = $Routing->setRoutes(array(
             'homepage' => array(
@@ -491,5 +494,26 @@ class RoutingTest extends TestCase
         ))->matchRoute();
 
         $this->assertFalse($routeMatch);
+    }
+
+    /* ------------------------------------------
+            set and get RequestUri METHOD TESTS!
+    ------------------------------------------ */
+    public function testSetRequestUri()
+    {
+        $customUri = $expect = '/find/me';
+
+        $Routing = new Routing();
+        $Routing->setRequestUri($customUri);
+
+        $this->assertEquals($expect, $Routing->getRequestUri());
+    }
+
+    public function testGetRequestAfterNewIstance()
+    {
+        $expect = '/'; //default!
+        $Routing = new Routing();
+
+        $this->assertEquals($expect, $Routing->getRequestUri());
     }
 }

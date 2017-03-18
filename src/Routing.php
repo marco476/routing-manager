@@ -8,32 +8,40 @@ class Routing
     //Name of request URI.
     protected $requestURI;
 
+    //Helper class.
+    protected $helper;
+
     //List of all routes that can match with URI.
     protected $routes = array();
 
-    //You can set a custom URI to match with $routes
-    public function __construct($uri = false)
+    public function __construct()
     {
-        if (!empty($uri)) {
-            $definiteveURI = $uri;
-        } else {
-            $definiteveURI = !empty($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '/';
-        }
+        $this->helper = new RoutingHelper();
+        $this->requestURI = !empty($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '/';
+    }
 
-        $this->requestURI = $definiteveURI;
+    //You can set a custom URI to match with $routes
+    public function setRequestUri($uri)
+    {
+        return $this->requestURI = $uri;
+    }
+
+    public function getRequestUri()
+    {
+        return $this->requestURI;
     }
 
     //Set routes by a YML routes file.
     public function setRoutesFromYml($routePath, $routeFile)
     {
         if (!extension_loaded('yaml')) {
-            throw new \Exception(RoutingHelper::NO_YAML_EXT);
+            throw new \Exception($this->helper::NO_YAML_EXT);
         }
 
         $routesYmlFile = $routePath . '/' . $routeFile;
 
         if (!is_dir($routePath) || !file_exists($routesYmlFile)) {
-            throw new \Exception(RoutingHelper::YML_OR_XML_NO_DIR_OR_FILE);
+            throw new \Exception($this->helper::YML_OR_XML_NO_DIR_OR_FILE);
         }
 
         //Filesize is necessary, because without it, if yml is empty
@@ -45,16 +53,16 @@ class Routing
     public function setRoutesFromXml($routePath, $routeFile)
     {
         if (!extension_loaded('libxml')) {
-            throw new \Exception(RoutingHelper::NO_XML_EXT);
+            throw new \Exception($this->helper::NO_XML_EXT);
         }
 
         $routesXmlFile = $routePath . '/' . $routeFile;
 
         if (!is_dir($routePath) || !file_exists($routesXmlFile)) {
-            throw new \Exception(RoutingHelper::YML_OR_XML_NO_DIR_OR_FILE);
+            throw new \Exception($this->helper::YML_OR_XML_NO_DIR_OR_FILE);
         }
 
-        $xmlArray = RoutingHelper::fromXmlToArray($routesXmlFile);
+        $xmlArray = $this->helper->fromXmlToArray($routesXmlFile);
         
         return !empty($xmlArray) ? $this->setRoutes($xmlArray) : $this;
     }

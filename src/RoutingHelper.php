@@ -8,7 +8,7 @@ class RoutingHelper
     const YML_OR_XML_NO_DIR_OR_FILE = "The path or file passed to setRoutesFromYml or setRoutesFromXml not exist.";
 
     //Parse a XML file and transform it to PHP specific structure array
-    public static function fromXmlToArray($routesXmlFile)
+    public function fromXmlToArray($routesXmlFile)
     {
         $routesFromXmlToArray = array();
         $xml = simplexml_load_string(file_get_contents($routesXmlFile));

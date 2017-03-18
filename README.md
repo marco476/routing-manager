@@ -21,7 +21,13 @@ composer require marco476/routing-manager
 ```
 
 ## Usage
-Use a *routing-manager* library is extreme simple.
+Use the *routing-manager* library is extreme simple.
+All routes setted **must** include a **route** *key/tag* for matching the URI.
+
+When you call **matchRoute** method, the library find a match with routes setted and URI present.
+It return the **route matched** array if math with URI is Ok or **false** if not.
+
+### Array
 See an example with **array**:
 
 ```PHP
@@ -48,7 +54,7 @@ if ($routeMatch) {
     echo "mmm.. what's wrong?";
 }
 ```
-
+### YML
 See an example with **YML**:
 
 ```PHP
@@ -81,6 +87,7 @@ homepage: #Name route
 
 > Note: If you want use a YAML file routes configuration, you must install the yaml php extension. You can install it with *sudo apt-get install php-yaml* or with *PECL*. For detail, [see that](http://bd808.com/pecl-file_formats-yaml/)
 
+### XML
 See an example with **XML**:
 
 ```PHP
@@ -121,8 +128,3 @@ And see a XML routes configuration file:
 ```
 
 > Note: If you want use a XML file routes configuration, you must install the libxml php extension. You can [see that](http://php.net/manual/en/book.libxml.php)
-
-All routes setted **must** include a **route** *key/tag* for matching the URI.
-
-When you call **matchRoute** method, the library find a match with routes setted and URI present.
-It return the **route matched** array if math with URI is Ok or **false** if not.

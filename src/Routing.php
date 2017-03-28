@@ -1,13 +1,9 @@
 <?php
-namespace Routing;
-
-use Routing\RoutingHelper;
+use Helper\RoutingHelper;
+use Helper\ExpressionRoute;
 
 class Routing
 {
-    //Helper class.
-    public $helper;
-    
     //Name of request URI.
     protected $requestURI;
 
@@ -16,7 +12,6 @@ class Routing
 
     public function __construct()
     {
-        $this->helper = new RoutingHelper();
         $this->requestURI = !empty($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '/';
     }
 
@@ -35,13 +30,13 @@ class Routing
     public function setRoutesFromYml($routePath, $routeFile)
     {
         if (!extension_loaded('yaml')) {
-            throw new \Exception($this->helper->NO_YAML_EXT);
+            throw new \Exception(RoutingHelper::NO_YAML_EXT);
         }
 
         $routesYmlFile = $routePath . '/' . $routeFile;
 
         if (!is_dir($routePath) || !file_exists($routesYmlFile)) {
-            throw new \Exception($this->helper->YML_OR_XML_NO_DIR_OR_FILE);
+            throw new \Exception(RoutingHelper::YML_OR_XML_NO_DIR_OR_FILE);
         }
 
         //Filesize is necessary, because without it, if yml is empty
@@ -53,27 +48,34 @@ class Routing
     public function setRoutesFromXml($routePath, $routeFile)
     {
         if (!extension_loaded('libxml')) {
-            throw new \Exception($this->helper->NO_XML_EXT);
+            throw new \Exception(RoutingHelper::NO_XML_EXT);
         }
 
         $routesXmlFile = $routePath . '/' . $routeFile;
 
         if (!is_dir($routePath) || !file_exists($routesXmlFile)) {
-            throw new \Exception($this->helper->YML_OR_XML_NO_DIR_OR_FILE);
+            throw new \Exception(RoutingHelper::YML_OR_XML_NO_DIR_OR_FILE);
         }
 
-        $xmlArray = $this->helper->fromXmlToArray($routesXmlFile);
+        $xmlArray = RoutingHelper::fromXmlToArray($routesXmlFile);
         
         return !empty($xmlArray) ? $this->setRoutes($xmlArray) : $this;
     }
 
-    //Set routes by an array of routes.
+    //Set routes internal array by an array of routes $routes.
     public function setRoutes(array $routes)
     {
         foreach ($routes as $route) {
-            if (!empty($route['route'])) {
-                $this->routes[] = $route;
+            $expression = !empty($route['expression']) ? $route['expression'] : false;
+            $requirements = !empty($route['requirements']) ? $route['requirements'] : false;
+
+            if ($expression === false) {
+                continue;
             }
+
+            //Formatted expression.
+            $route['expression'] = ExpressionRoute::getIstance()->formatExpression($expression, $requirements);
+            $this->routes[] = $route;
         }
 
         return $this;
@@ -89,7 +91,7 @@ class Routing
     public function matchRoute()
     {
         foreach ($this->routes as $route) {
-            if (preg_match('~^\\' . $route['route'] . '$~', $this->requestURI)) {
+            if (preg_match('~^\\' . $route['expression'] . '$~', $this->requestURI)) {
                 return $route;
             }
         }

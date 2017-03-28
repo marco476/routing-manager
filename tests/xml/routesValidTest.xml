@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <root>
     <node>
-        <route>/</route>
+        <expression>/</expression>
         <controller>MyController</controller>
         <action>MyAction</action>
         <extra>Hello</extra>
     </node>
     <node>
-        <route>/contacts</route>
+        <expression>/contacts</expression>
         <controller>MyController2</controller>
         <params>Hello1</params>
         <extra>Hello2</extra>

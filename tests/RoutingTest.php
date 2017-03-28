@@ -1,6 +1,7 @@
 <?php
 use PHPUnit\Framework\TestCase;
 use Routing\Routing;
+use Routing\RoutingHelper;
 
 class RoutingTest extends TestCase
 {
@@ -39,7 +40,7 @@ class RoutingTest extends TestCase
     {
         $input = array(
             'homepage' => array(
-                'route' => '/',
+                'expression' => '/',
                 'customController' => 'IndexController',
                 'customAction' => 'showHomeAction'
             )
@@ -47,7 +48,7 @@ class RoutingTest extends TestCase
 
         $expect = array(
             0 => array(
-                'route' => '/',
+                'expression' => '/',
                 'customController' => 'IndexController',
                 'customAction' => 'showHomeAction'
             )
@@ -64,7 +65,7 @@ class RoutingTest extends TestCase
     {
         $input = array(
             'homepage' => array(
-                'route' => '/',
+                'expression' => '/',
                 'customController' => 'IndexController',
                 'customAction' => 'showHomeAction'
             ),
@@ -74,7 +75,7 @@ class RoutingTest extends TestCase
                 'customAction' => 'showContattiAction'
             ),
             'map' => array(
-                'route' => '/map',
+                'expression' => '/map',
             ),
             'other' => array(
                 //No route key!
@@ -85,12 +86,12 @@ class RoutingTest extends TestCase
 
         $expect = array(
             0 => array(
-                'route' => '/',
+                'expression' => '/',
                 'customController' => 'IndexController',
                 'customAction' => 'showHomeAction'
             ),
             1 => array(
-                'route' => '/map'
+                'expression' => '/map'
             )
         );
 
@@ -105,31 +106,31 @@ class RoutingTest extends TestCase
     {
         $input = array(
             'homepage' => array(
-                'route' => '/homepage',
+                'expression' => '/homepage',
                 'hello' => 'hi!'
             ),
             'contacts' => array(
-                'route' => '/contacts',
+                'expression' => '/contacts',
                 'customController' => 'ContattiController',
                 'customAction' => 'showContattiAction'
             ),
             'map' => array(
-                'route' => '/map',
+                'expression' => '/map',
             )
         );
 
         $expect = array(
             0 => array(
-                'route' => '/homepage',
+                'expression' => '/homepage',
                 'hello' => 'hi!'
             ),
             1 => array(
-                'route' => '/contacts',
+                'expression' => '/contacts',
                 'customController' => 'ContattiController',
                 'customAction' => 'showContattiAction'
             ),
             2 => array(
-                'route' => '/map'
+                'expression' => '/map'
             )
         );
 
@@ -154,7 +155,7 @@ class RoutingTest extends TestCase
             $dirName = '/subDir/dirExample';
             $ymlFile = 'ymlExample.yml';
 
-            $this->expectExceptionMessage($Routing->helper->NO_YAML_EXT);
+            $this->expectExceptionMessage(RoutingHelper::NO_YAML_EXT);
             $Routing->setRoutesFromYml($dirName, $ymlFile);
         } else {
             $expectBool = true;
@@ -175,7 +176,7 @@ class RoutingTest extends TestCase
 
             $Routing = new Routing();
 
-            $this->expectExceptionMessage($Routing->helper->YML_OR_XML_NO_DIR_OR_FILE);
+            $this->expectExceptionMessage(RoutingHelper::YML_OR_XML_NO_DIR_OR_FILE);
             $Routing->setRoutesFromYml($dirName, $ymlFile);
         } else {
             print self::MSG_ERROR_YML_EXTENSION;
@@ -193,7 +194,7 @@ class RoutingTest extends TestCase
 
             $Routing = new Routing();
 
-            $this->expectExceptionMessage($Routing->helper->YML_OR_XML_NO_DIR_OR_FILE);
+            $this->expectExceptionMessage(RoutingHelper::YML_OR_XML_NO_DIR_OR_FILE);
             $Routing->setRoutesFromYml($dirName, $ymlFile);
         } else {
             print self::MSG_ERROR_YML_EXTENSION;
@@ -211,7 +212,7 @@ class RoutingTest extends TestCase
 
             $expect = array(
                 0 => array(
-                    'route' => '/',
+                    'expression' => '/',
                     'controller' => 'IndexController',
                     'action' => 'showHomeAction',
                     'params' => array(
@@ -264,7 +265,7 @@ class RoutingTest extends TestCase
             $dirName = '/subDir/dirExample';
             $xmlFile = 'xmlExample.xml';
 
-            $this->expectExceptionMessage($Routing->helper->NO_XML_EXT);
+            $this->expectExceptionMessage(RoutingHelper::NO_XML_EXT);
             $Routing->setRoutesFromXml($dirName, $xmlFile);
         } else {
             $expectBool = true;
@@ -285,7 +286,7 @@ class RoutingTest extends TestCase
 
             $Routing = new Routing();
 
-            $this->expectExceptionMessage($Routing->helper->YML_OR_XML_NO_DIR_OR_FILE);
+            $this->expectExceptionMessage(RoutingHelper::YML_OR_XML_NO_DIR_OR_FILE);
             $Routing->setRoutesFromXml($dirName, $xmlFile);
         } else {
             print self::MSG_ERROR_XML_EXTENSION;
@@ -303,7 +304,7 @@ class RoutingTest extends TestCase
 
             $Routing = new Routing();
 
-            $this->expectExceptionMessage($Routing->helper->YML_OR_XML_NO_DIR_OR_FILE);
+            $this->expectExceptionMessage(RoutingHelper::YML_OR_XML_NO_DIR_OR_FILE);
             $Routing->setRoutesFromXml($dirName, $xmlFile);
         } else {
             print self::MSG_ERROR_XML_EXTENSION;
@@ -321,13 +322,13 @@ class RoutingTest extends TestCase
 
             $expect = array(
                 0 => array(
-                    'route' => '/',
+                    'expression' => '/',
                     'controller' => 'MyController',
                     'action' => 'MyAction',
                     'extra' => 'Hello'
                 ),
                 1 => array(
-                    'route' => '/contacts',
+                    'expression' => '/contacts',
                     'controller' => 'MyController2',
                     'params' => 'Hello1',
                     'extra' => 'Hello2'
@@ -383,7 +384,7 @@ class RoutingTest extends TestCase
             $Routing = new Routing();
 
             $expect = array(
-            'route' => '/',
+            'expression' => '/',
             'controller' => 'IndexController',
             'action' => 'showHomeAction',
             'params' => array(
@@ -422,7 +423,7 @@ class RoutingTest extends TestCase
             $Routing = new Routing();
 
             $expect = array(
-            'route' => '/',
+            'expression' => '/',
             'controller' => 'MyController',
             'action' => 'MyAction',
             'extra' => 'Hello'
@@ -456,7 +457,7 @@ class RoutingTest extends TestCase
         $Routing = new Routing();
 
         $expect = array(
-                'route'     => '/',
+                'expression'     => '/',
                 'controller'=> 'MyController',
                 'action'    => 'MyAction',
                 'extra1'    => 'extra1',
@@ -465,7 +466,7 @@ class RoutingTest extends TestCase
 
         $routeMatch = $Routing->setRoutes(array(
             'homepage' => array(
-                'route'     => '/',
+                'expression'     => '/',
                 'controller'=> 'MyController',
                 'action'    => 'MyAction',
                 'extra1'    => 'extra1',
@@ -484,7 +485,7 @@ class RoutingTest extends TestCase
 
         $routeMatch = $Routing->setRoutes(array(
             'homepage' => array(
-                'route'     => '/',
+                'expression'     => '/',
                 'controller'=> 'MyController',
                 'action'    => 'MyAction',
                 'extra1'    => 'extra1',

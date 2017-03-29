@@ -1,5 +1,6 @@
 <?php
 use PHPUnit\Framework\TestCase;
+use Routing\Routing;
 use Helper\RoutingHelper;
 
 class RoutingTest extends TestCase

@@ -1,4 +1,6 @@
 <?php
+namespace Routing;
+
 use Helper\RoutingHelper;
 use Helper\ExpressionRoute;
 

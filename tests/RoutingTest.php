@@ -30,9 +30,9 @@ class RoutingTest extends TestCase
         $expect = array();
 
         $Routing = new Routing();
-        $resultRoutes = $Routing->setRoutes(array())->getRoutes();
+        $Routing->setRoutes(array());
 
-        $this->assertEquals($expect, $resultRoutes);
+        $this->assertEquals($expect, $Routing->getRoutes());
     }
 
     //Test setRoutes with one valid route.

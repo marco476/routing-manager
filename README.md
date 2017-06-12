@@ -33,11 +33,11 @@ See an example with **array**:
 ```PHP
 <?php
 //Into web/index.php.
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once "/vendor/autoload.php";
 
 $Routing = new Routing();
 
-$routeMatch = $Routing->setRoutes(array(
+$Routing->setRoutes(array(
     'homepage' => array( //Name route
         'expression'     => '/', //MUST DEFINE!
         'controller'=> 'MyController',
@@ -45,14 +45,16 @@ $routeMatch = $Routing->setRoutes(array(
         'extra1'    => 'extra1',
         'extra2'    => 'extra2'
     )
-))->matchRoute();
+));
 
-if ($routeMatch) {
-    echo "what will you do?";
+if ($routeMatch = $Routing->matchRoute()) {
+    echo "See my data!";
+    var_dump($routeMatch);
 } else {
     echo "mmm.. what's wrong?";
 }
 ```
+
 ### YML
 See an example with **YML**:
 
@@ -63,10 +65,11 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 $Routing = new Routing();
 
-$routeMatch = $Routing->setRoutesFromYml(__DIR__, 'routes.yml')->matchRoute();
+$Routing->setRoutesFromYml(__DIR__, 'routes.yml');
 
-if ($routeMatch) {
-    echo "what will you do?";
+if ($routeMatch = $Routing->matchRoute()) {
+    echo "See my data!";
+    var_dump($routeMatch);
 } else {
     echo "mmm.. what's wrong?";
 }
@@ -94,10 +97,11 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 $Routing = new Routing();
 
-$routeMatch = $Routing->setRoutesFromXml(__DIR__, 'routes.xml')->matchRoute();
+$Routing->setRoutesFromXml(__DIR__, 'routes.xml');
 
-if ($routeMatch) {
-    echo "Now I call {$routeMatch['controller']} controller!";
+if ($routeMatch = $Routing->matchRoute()) {
+    echo "See my data!";
+    var_dump($routeMatch);
 } else {
     echo "mmm.. what's wrong?";
 }
@@ -186,9 +190,9 @@ See an example with **array**:
 require_once __DIR__ . '/../vendor/autoload.php';
 use Helper\ExpressionRoute;
 
-$routing = new Routing();
+$Routing = new Routing();
 
-$routeMatch = $routing->setRoutes(array(
+$Routing->setRoutes(array(
     'homepage' => array(
         'expression'    => '/{wildcard}/{wildcard2}',
         'requirements'  => array(
@@ -199,10 +203,11 @@ $routeMatch = $routing->setRoutes(array(
         'action'        => 'MyAction',
         'extra1'        => 'extra1',
     )
-))->matchRoute();
+));
 
-if ($routeMatch) {
-    echo "Now I call {$routeMatch['controller']} controller!";
+if ($routeMatch = $Routing->matchRoute()) {
+    echo "See my data!";
+    var_dump($routeMatch);
 } else {
     echo "mmm.. what's wrong?";
 }

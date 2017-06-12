@@ -3,13 +3,17 @@ namespace Helper;
 
 class RoutingHelper extends RoutingHelperAbstract
 {
-    //Parse a XML file and transform it to PHP specific structure array
+    /**
+     * Parse a XML file and transform it to PHP specific structure array
+     *
+     * @param string $routesXmlFile
+     * @return array
+     */
     public static function fromXmlToArray($routesXmlFile)
     {
         $routesFromXmlToArray = array();
-        $xml = simplexml_load_string(file_get_contents($routesXmlFile));
 
-        if (!$xml) {
+        if (!($xml = simplexml_load_string(file_get_contents($routesXmlFile)))) {
             return $routesFromXmlToArray;
         }
 

@@ -1,15 +1,17 @@
 <?php
 use PHPUnit\Framework\TestCase;
+
 use Routing\Routing;
-use Helper\RoutingHelper;
+use Routing\Exception\RoutingException;
+use Routing\Exception\ExceptionMessage;
 
 class RoutingTest extends TestCase
 {
-	const MSG_ERROR_YML_EXTENSION = "You must enable YAML PHP extension for start this method's test.\n You can install it with sudo apt-get install php-yaml or with PECL. For detail, see that: http://bd808.com/pecl-file_formats-yaml/ .";
-	const MSG_ERROR_XML_EXTENSION = "You must enable libxml extension for start this method's test.\nFor detail, see that: http://php.net/manual/en/book.libxml.php .";
-
-	//When I get a new Routing istance, the routes
-	//aren't setted.
+	/**
+	 * When I get a new Routing istance, the routes aren't setted.
+	 *
+	 * @return boold
+	 */
 	public function testRoutesEmptyOnStart()
 	{
 		$expect = array();
@@ -24,7 +26,11 @@ class RoutingTest extends TestCase
 				setRoutes METHOD TESTS!
 	   ------------------------------------------ */
 
-	//An empty array for setRoutes not set anything.
+	/**
+	 * An empty array for setRoutes not set anything.
+	 *
+	 * @return bool
+	 */
 	public function testEmptySetRoutes()
 	{
 		$expect = array();
@@ -35,7 +41,11 @@ class RoutingTest extends TestCase
 		$this->assertEquals($expect, $Routing->getRoutes());
 	}
 
-	//Test setRoutes with one valid route.
+	/**
+	 * Test setRoutes with one valid route.
+	 *
+	 * @return bool
+	 */
 	public function testSetOneRouteValid()
 	{
 		$input = array(
@@ -60,7 +70,11 @@ class RoutingTest extends TestCase
 		$this->assertEquals($expect, $Routing->getRoutes());
 	}
 
-	//Test setRoutes with same routes not valid.
+	/**
+	 * Test setRoutes with same routes not valid.
+	 *
+	 * @return boold
+	 */
 	public function testSetRoutesNotAllValid()
 	{
 		$input = array(
@@ -101,7 +115,11 @@ class RoutingTest extends TestCase
 		$this->assertEquals($expect, $Routing->getRoutes());
 	}
 
-	//Test setRoutes with all routes valid.
+	/**
+	 * Test setRoutes with all routes valid.
+	 *
+	 * @return bool
+	 */
 	public function testSetRoutesAllValid()
 	{
 		$input = array(
@@ -144,6 +162,11 @@ class RoutingTest extends TestCase
 			setRoutesFromYml METHOD TESTS!
 	   ------------------------------------------ */
 
+	/**
+	 * Check if yml extension is installed.
+	 *
+	 * @return bool
+	 */
 	public function testYmlExtensionSetRoutesFromYml()
 	{
 		$extension = extension_loaded('yaml');
@@ -155,7 +178,9 @@ class RoutingTest extends TestCase
 			$dirName = '/subDir/dirExample';
 			$ymlFile = 'ymlExample.yml';
 
-			$this->expectExceptionMessage(RoutingHelper::NO_YAML_EXT);
+			$this->expectException(RoutingException::class);
+			$this->expectExceptionMessage(ExceptionMessage::NO_YAML_EXT);
+
 			$Routing->setRoutesFromYml($dirName, $ymlFile);
 		} else {
 			$expectBool = true;
@@ -167,6 +192,9 @@ class RoutingTest extends TestCase
 
 	/**
 	 * @depends testYmlExtensionSetRoutesFromYml
+	 *
+	 * @param bool $yamlExtensionEnabled
+	 * @return void
 	 */
 	public function testNotFoudDirSetRoutesFromYml($yamlExtensionEnabled)
 	{
@@ -176,7 +204,9 @@ class RoutingTest extends TestCase
 
 			$Routing = new Routing();
 
-			$this->expectExceptionMessage(RoutingHelper::YML_OR_XML_NO_DIR_OR_FILE);
+			$this->expectException(RoutingException::class);
+			$this->expectExceptionMessage(ExceptionMessage::YML_OR_XML_NO_DIR_OR_FILE);
+
 			$Routing->setRoutesFromYml($dirName, $ymlFile);
 		} else {
 			print self::MSG_ERROR_YML_EXTENSION;
@@ -185,6 +215,9 @@ class RoutingTest extends TestCase
 
 	/**
 	 * @depends testYmlExtensionSetRoutesFromYml
+	 *
+	 * @param bool $yamlExtensionEnabled
+	 * @return void
 	 */
 	public function testNotFoudFileSetRoutesFromYml($yamlExtensionEnabled)
 	{
@@ -194,7 +227,9 @@ class RoutingTest extends TestCase
 
 			$Routing = new Routing();
 
-			$this->expectExceptionMessage(RoutingHelper::YML_OR_XML_NO_DIR_OR_FILE);
+			$this->expectException(RoutingException::class);
+			$this->expectExceptionMessage(ExceptionMessage::YML_OR_XML_NO_DIR_OR_FILE);
+
 			$Routing->setRoutesFromYml($dirName, $ymlFile);
 		} else {
 			print self::MSG_ERROR_YML_EXTENSION;
@@ -203,6 +238,9 @@ class RoutingTest extends TestCase
 
 	/**
 	 * @depends testYmlExtensionSetRoutesFromYml
+	 *
+	 * @param bool $yamlExtensionEnabled
+	 * @return bool|void
 	 */
 	public function testValidSetRoutesFromYml($yamlExtensionEnabled)
 	{
@@ -232,6 +270,9 @@ class RoutingTest extends TestCase
 
 	/**
 	 * @depends testYmlExtensionSetRoutesFromYml
+	 *
+	 * @param bool $yamlExtensionEnabled
+	 * @return bool|void
 	 */
 	public function testEmptySetRoutesFromYml($yamlExtensionEnabled)
 	{
@@ -254,6 +295,11 @@ class RoutingTest extends TestCase
 			setRoutesFromXml METHOD TESTS!
 	   ------------------------------------------ */
 
+	/**
+	 * Check if xml extension is installed.
+	 *
+	 * @return bool
+	 */
 	public function testXmlExtensionSetRoutesFromXml()
 	{
 		$extension = extension_loaded('libxml');
@@ -265,7 +311,9 @@ class RoutingTest extends TestCase
 			$dirName = '/subDir/dirExample';
 			$xmlFile = 'xmlExample.xml';
 
-			$this->expectExceptionMessage(RoutingHelper::NO_XML_EXT);
+			$this->expectException(RoutingException::class);
+			$this->expectExceptionMessage(ExceptionMessage::NO_XML_EXT);
+
 			$Routing->setRoutesFromXml($dirName, $xmlFile);
 		} else {
 			$expectBool = true;
@@ -277,6 +325,9 @@ class RoutingTest extends TestCase
 
 	/**
 	 * @depends testXmlExtensionSetRoutesFromXml
+	 *
+	 * @param bool $xmlExtensionEnabled
+	 * @return void
 	 */
 	public function testNotFoudDirSetRoutesFromXml($xmlExtensionEnabled)
 	{
@@ -286,7 +337,9 @@ class RoutingTest extends TestCase
 
 			$Routing = new Routing();
 
-			$this->expectExceptionMessage(RoutingHelper::YML_OR_XML_NO_DIR_OR_FILE);
+			$this->expectException(RoutingException::class);
+			$this->expectExceptionMessage(ExceptionMessage::YML_OR_XML_NO_DIR_OR_FILE);
+
 			$Routing->setRoutesFromXml($dirName, $xmlFile);
 		} else {
 			print self::MSG_ERROR_XML_EXTENSION;
@@ -295,6 +348,9 @@ class RoutingTest extends TestCase
 
 	/**
 	 * @depends testXmlExtensionSetRoutesFromXml
+	 *
+	 * @param bool $xmlExtensionEnabled
+	 * @return void
 	 */
 	public function testNotFoudFileSetRoutesFromXml($xmlExtensionEnabled)
 	{
@@ -304,7 +360,9 @@ class RoutingTest extends TestCase
 
 			$Routing = new Routing();
 
-			$this->expectExceptionMessage(RoutingHelper::YML_OR_XML_NO_DIR_OR_FILE);
+			$this->expectException(RoutingException::class);
+			$this->expectExceptionMessage(ExceptionMessage::YML_OR_XML_NO_DIR_OR_FILE);
+
 			$Routing->setRoutesFromXml($dirName, $xmlFile);
 		} else {
 			print self::MSG_ERROR_XML_EXTENSION;
@@ -313,6 +371,9 @@ class RoutingTest extends TestCase
 
 	/**
 	 * @depends testXmlExtensionSetRoutesFromXml
+	 *
+	 * @param bool $xmlExtensionEnabled
+	 * @return bool|void
 	 */
 	public function testValidSetRoutesFromXml($xmlExtensionEnabled)
 	{
@@ -346,6 +407,9 @@ class RoutingTest extends TestCase
 
 	/**
 	 * @depends testXmlExtensionSetRoutesFromXml
+	 *
+	 * @param bool $xmlExtensionEnabled
+	 * @return bool|void
 	 */
 	public function testEmptySetRoutesFromXml($xmlExtensionEnabled)
 	{
@@ -368,7 +432,11 @@ class RoutingTest extends TestCase
 			matchRoute METHOD TESTS!
 	------------------------------------------ */
 
-	//Test matchRoute method without defined routes to matching.
+	/**
+	 * Test matchRoute method without defined routes to matching.
+	 *
+	 * @return bool
+	 */
 	public function testMatchRouteWithoutDefinedRoutes()
 	{
 		$Routing = new Routing();
@@ -377,6 +445,9 @@ class RoutingTest extends TestCase
 
 	/**
 	 * @depends testYmlExtensionSetRoutesFromYml
+	 *
+	 * @param bool $yamlExtensionEnabled
+	 * @return bool|void
 	 */
 	public function testMatchRouteMatchByYmlRoutes($yamlExtensionEnabled)
 	{

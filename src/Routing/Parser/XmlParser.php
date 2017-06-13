@@ -1,7 +1,7 @@
 <?php
-namespace Helper;
+namespace Routing\Parser;
 
-class RoutingHelper extends RoutingHelperAbstract
+class XmlParser implements parserInterface
 {
 	/**
 	 * Parse a XML file and transform it to PHP specific structure array
@@ -9,7 +9,7 @@ class RoutingHelper extends RoutingHelperAbstract
 	 * @param string $routesXmlFile
 	 * @return array
 	 */
-	public static function fromXmlToArray($routesXmlFile)
+	public static function parse($routesXmlFile)
 	{
 		$routesFromXmlToArray = array();
 

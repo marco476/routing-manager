@@ -1,8 +1,12 @@
 <?php
 namespace Routing;
 
-use Helper\RoutingHelper;
-use Helper\ExpressionRoute;
+use Exception\RoutingException;
+use Exception\ExceptionMessage;
+
+use Parser\XmlParser;
+use Parser\YmlParser;
+use Helper\Expression\Formatter;
 
 class Routing
 {
@@ -59,18 +63,21 @@ class Routing
 	public function setRoutesFromYml($routePath, $routeFile)
 	{
 		if (!extension_loaded('yaml')) {
-			throw new \Exception(RoutingHelper::NO_YAML_EXT);
+			throw new RoutingException(ExceptionMessage::NO_YAML_EXT);
 		}
 
 		$routesYmlFile = $routePath . '/' . $routeFile;
 
 		if (!file_exists($routesYmlFile)) {
-			throw new \Exception(RoutingHelper::YML_OR_XML_NO_DIR_OR_FILE);
+			throw new RoutingException(ExceptionMessage::YML_OR_XML_NO_DIR_OR_FILE);
 		}
 
 		//Filesize is necessary, because without it, if yml is empty
 		//yaml_parse_file return a fatal error and not false!
-		return filesize($routesYmlFile) && $this->setRoutes(yaml_parse_file($routesYmlFile));
+		return 
+			filesize($routesYmlFile) && 
+			!empty($ymlArray = YmlParser::parse($routesYmlFile)) &&
+			$this->setRoutes($ymlArray);
 	}
 
 	/**
@@ -83,17 +90,18 @@ class Routing
 	public function setRoutesFromXml($routePath, $routeFile)
 	{
 		if (!extension_loaded('libxml')) {
-			throw new \Exception(RoutingHelper::NO_XML_EXT);
+			throw new RoutingException(ExceptionMessage::NO_XML_EXT);
 		}
 
 		$routesXmlFile = $routePath . '/' . $routeFile;
 
 		if (!file_exists($routesXmlFile)) {
-			throw new \Exception(RoutingHelper::YML_OR_XML_NO_DIR_OR_FILE);
+			throw new RoutingException(ExceptionMessage::YML_OR_XML_NO_DIR_OR_FILE);
 		}
 
-		return !empty($xmlArray = RoutingHelper::fromXmlToArray($routesXmlFile)) &&
-				$this->setRoutes($xmlArray);
+		return 
+			!empty($xmlArray = XmlPaser::parse($routesXmlFile)) &&
+			$this->setRoutes($xmlArray);
 	}
 
 	/**
@@ -108,6 +116,8 @@ class Routing
 			return false;
 		}
 
+		$Formatter = new Formatter();
+
 		foreach ($routes as $route) {
 			$expression = !empty($route['expression']) ? $route['expression'] : false;
 			$requirements = !empty($route['requirements']) ? $route['requirements'] : false;
@@ -117,7 +127,7 @@ class Routing
 			}
 
 			//Formatted expression.
-			$route['expression'] = ExpressionRoute::getIstance()->formatExpression($expression, $requirements);
+			$route['expression'] = $Formatter->formatExpression($expression, $requirements);
 			$this->routes[] = $route;
 		}
 

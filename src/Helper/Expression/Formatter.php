@@ -1,27 +1,8 @@
 <?php
-namespace Helper;
+namespace Helper\Expression;
 
-class ExpressionRoute extends ExpressionRouteAbstract
+class Formatter
 {
-	/**
-	 * @var ExpressionRoute
-	 */
-	protected static $istance = null;
-
-	/**
-	 * Singleton
-	 *
-	 * @return ExpressionRoute
-	 */
-	public static function getIstance()
-	{
-		if (self::$istance === null) {
-			self::$istance = new ExpressionRoute();
-		}
-
-		return self::$istance;
-	}
-
 	/**
 	 * Format $expression route string.
 	 *
@@ -36,10 +17,10 @@ class ExpressionRoute extends ExpressionRouteAbstract
 
 		//If yes ..
 		if (!empty($pregMatchAll)) {
-			//Are there some requirements for wildcards?     
+			//Are there some requirements for wildcards?
 
 			$expression = 
-				//If no, call formatExpressionNoRequirements.                   
+				//If no, call formatExpressionNoRequirements.
 				empty($requirements) ?
 					$this->formatExpressionNoRequirements($allMatch, $expression) :
 					//If yes, call formatExpressionRequirements.

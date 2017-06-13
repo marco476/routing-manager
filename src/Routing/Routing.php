@@ -1,17 +1,17 @@
 <?php
 namespace Routing;
 
-use Exception\RoutingException;
-use Exception\ExceptionMessage;
+use Routing\Exception\RoutingException;
+use Routing\Exception\ExceptionMessage;
 
-use Parser\XmlParser;
-use Parser\YmlParser;
+use Routing\Parser\XmlParser;
+use Routing\Parser\YmlParser;
 use Helper\Expression\Formatter;
 
 class Routing
 {
 	/**
-	 * Name of request URI.
+	 * Name of request   URI.
 	 *
 	 * @var string
 	 */
@@ -100,7 +100,7 @@ class Routing
 		}
 
 		return 
-			!empty($xmlArray = XmlPaser::parse($routesXmlFile)) &&
+			!empty($xmlArray = XmlParser::parse($routesXmlFile)) &&
 			$this->setRoutes($xmlArray);
 	}
 

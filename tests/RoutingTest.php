@@ -209,7 +209,7 @@ class RoutingTest extends TestCase
 
 			$Routing->setRoutesFromYml($dirName, $ymlFile);
 		} else {
-			print self::MSG_ERROR_YML_EXTENSION;
+			print ExceptionMessage::NO_YAML_EXT . PHP_EOL;
 		}
 	}
 
@@ -232,7 +232,7 @@ class RoutingTest extends TestCase
 
 			$Routing->setRoutesFromYml($dirName, $ymlFile);
 		} else {
-			print self::MSG_ERROR_YML_EXTENSION;
+			print ExceptionMessage::NO_YAML_EXT . PHP_EOL;
 		}
 	}
 
@@ -264,7 +264,7 @@ class RoutingTest extends TestCase
 
 			$this->assertEquals($expect, $Routing->getRoutes());
 		} else {
-			print self::MSG_ERROR_YML_EXTENSION;
+			print ExceptionMessage::NO_YAML_EXT . PHP_EOL;
 		}
 	}
 
@@ -287,7 +287,7 @@ class RoutingTest extends TestCase
 
 			$this->assertEquals($expect, $Routing->getRoutes());
 		} else {
-			print self::MSG_ERROR_YML_EXTENSION;
+			print ExceptionMessage::NO_YAML_EXT . PHP_EOL;
 		}
 	}
 
@@ -342,7 +342,7 @@ class RoutingTest extends TestCase
 
 			$Routing->setRoutesFromXml($dirName, $xmlFile);
 		} else {
-			print self::MSG_ERROR_XML_EXTENSION;
+			print ExceptionMessage::NO_XML_EXT . PHP_EOL;
 		}
 	}
 
@@ -365,7 +365,7 @@ class RoutingTest extends TestCase
 
 			$Routing->setRoutesFromXml($dirName, $xmlFile);
 		} else {
-			print self::MSG_ERROR_XML_EXTENSION;
+			print ExceptionMessage::NO_XML_EXT . PHP_EOL;
 		}
 	}
 
@@ -401,7 +401,7 @@ class RoutingTest extends TestCase
 
 			$this->assertEquals($expect, $Routing->getRoutes());
 		} else {
-			print self::MSG_ERROR_XML_EXTENSION;
+			print ExceptionMessage::NO_XML_EXT . PHP_EOL;
 		}
 	}
 
@@ -424,7 +424,7 @@ class RoutingTest extends TestCase
 
 			$this->assertEquals($expect, $Routing->getRoutes());
 		} else {
-			print self::MSG_ERROR_XML_EXTENSION;
+			print ExceptionMessage::NO_XML_EXT . PHP_EOL;
 		}
 	}
 
@@ -462,15 +462,18 @@ class RoutingTest extends TestCase
 				0 => 'extraParams'
 			));
 
-			$matchedRoute = $Routing->setRoutesFromYml(__DIR__ . '/yml', 'routesValidTest.yml')->matchRoute();
-			$this->assertEquals($expect, $matchedRoute);
+			$Routing->setRoutesFromYml(__DIR__ . '/yml', 'routesValidTest.yml');
+			$this->assertEquals($expect, $Routing->matchRoute());
 		} else {
-			print self::MSG_ERROR_YML_EXTENSION;
+			print ExceptionMessage::NO_YAML_EXT . PHP_EOL;
 		}
 	}
 
 	/**
 	 * @depends testYmlExtensionSetRoutesFromYml
+	 *
+	 * @param bool $yamlExtensionEnabled
+	 * @return bool|void
 	 */
 	public function testMatchRouteNotMatchByYmlRoutes($yamlExtensionEnabled)
 	{
@@ -478,15 +481,18 @@ class RoutingTest extends TestCase
 			$Routing = new Routing();
 			$Routing->setRequestUri('/routeNotConsideredByYml');
 
-			$matchedRoute = $Routing->setRoutesFromYml(__DIR__ . '/yml', 'routesValidTest.yml')->matchRoute();
-			$this->assertFalse($matchedRoute);
+			$Routing->setRoutesFromYml(__DIR__ . '/yml', 'routesValidTest.yml');
+			$this->assertFalse($Routing->matchRoute());
 		} else {
-			print self::MSG_ERROR_YML_EXTENSION;
+			print ExceptionMessage::NO_YAML_EXT . PHP_EOL;
 		}
 	}
 
 	/**
 	 * @depends testXmlExtensionSetRoutesFromXml
+	 *
+	 * @param bool $xmlExtensionEnabled
+	 * @return bool|void
 	 */
 	public function testMatchRouteMatchByXmlRoutes($xmlExtensionEnabled)
 	{
@@ -494,21 +500,24 @@ class RoutingTest extends TestCase
 			$Routing = new Routing();
 
 			$expect = array(
-			'expression' => '/',
-			'controller' => 'MyController',
-			'action' => 'MyAction',
-			'extra' => 'Hello'
+				'expression' => '/',
+				'controller' => 'MyController',
+				'action' => 'MyAction',
+				'extra' => 'Hello'
 			);
 
-			$matchedRoute = $Routing->setRoutesFromXml(__DIR__ . '/xml', 'routesValidTest.xml')->matchRoute();
-			$this->assertEquals($expect, $matchedRoute);
+			$Routing->setRoutesFromXml(__DIR__ . '/xml', 'routesValidTest.xml');
+			$this->assertEquals($expect, $Routing->matchRoute());
 		} else {
-			print self::MSG_ERROR_XML_EXTENSION;
+			print ExceptionMessage::NO_YAML_EXT . PHP_EOL;
 		}
 	}
 
 	/**
 	 * @depends testXmlExtensionSetRoutesFromXml
+	 *
+	 * @param bool $xmlExtensionEnabled
+	 * @return bool|void
 	 */
 	public function testMatchRouteNotMatchByXmlRoutes($xmlExtensionEnabled)
 	{
@@ -516,13 +525,16 @@ class RoutingTest extends TestCase
 			$Routing = new Routing();
 			$Routing->setRequestUri('/routeNotConsideredByXml');
 
-			$matchedRoute = $Routing->setRoutesFromXml(__DIR__ . '/xml', 'routesValidTest.xml')->matchRoute();
-			$this->assertFalse($matchedRoute);
+			$Routing->setRoutesFromXml(__DIR__ . '/xml', 'routesValidTest.xml');
+			$this->assertFalse($Routing->matchRoute());
 		} else {
-			print self::MSG_ERROR_XML_EXTENSION;
+			print ExceptionMessage::NO_XML_EXT . PHP_EOL;
 		}
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function testMatchRouteMatchByArrayRoutes()
 	{
 		$Routing = new Routing();
@@ -535,7 +547,7 @@ class RoutingTest extends TestCase
 				'extra2'    => 'extra2'
 		);
 
-		$routeMatch = $Routing->setRoutes(array(
+		$Routing->setRoutes(array(
 			'homepage' => array(
 				'expression'     => '/',
 				'controller'=> 'MyController',
@@ -545,16 +557,18 @@ class RoutingTest extends TestCase
 			)
 		));
 
-		$matchedRoute = $Routing->matchRoute();
-		$this->assertEquals($expect, $matchedRoute);
+		$this->assertEquals($expect, $Routing->matchRoute());
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function testMatchRouteNotMatchByArrayRoutes()
 	{
 		$Routing = new Routing();
 		$Routing->setRequestUri('/routeNotConsideredByArray');
 
-		$routeMatch = $Routing->setRoutes(array(
+		$Routing->setRoutes(array(
 			'homepage' => array(
 				'expression'     => '/',
 				'controller'=> 'MyController',
@@ -562,14 +576,17 @@ class RoutingTest extends TestCase
 				'extra1'    => 'extra1',
 				'extra2'    => 'extra2'
 			)
-		))->matchRoute();
+		));
 
-		$this->assertFalse($routeMatch);
+		$this->assertFalse($Routing->matchRoute());
 	}
 
 	/* ------------------------------------------
 		 set and get RequestUri METHOD TESTS!
 	------------------------------------------ */
+	/**
+	 * @return bool
+	 */
 	public function testSetRequestUri()
 	{
 		$customUri = $expect = '/find/me';
@@ -580,6 +597,9 @@ class RoutingTest extends TestCase
 		$this->assertEquals($expect, $Routing->getRequestUri());
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function testGetRequestAfterNewIstance()
 	{
 		$expect = '/'; //default!

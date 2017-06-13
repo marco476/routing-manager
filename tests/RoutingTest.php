@@ -55,9 +55,9 @@ class RoutingTest extends TestCase
         );
 
         $Routing = new Routing();
-        $resultRoutes = $Routing->setRoutes($input)->getRoutes();
+        $Routing->setRoutes($input);
 
-        $this->assertEquals($expect, $resultRoutes);
+        $this->assertEquals($expect, $Routing->getRoutes());
     }
 
     //Test setRoutes with same routes not valid.
@@ -96,9 +96,9 @@ class RoutingTest extends TestCase
         );
 
         $Routing = new Routing();
-        $resultRoutes = $Routing->setRoutes($input)->getRoutes();
+        $Routing->setRoutes($input);
 
-        $this->assertEquals($expect, $resultRoutes);
+        $this->assertEquals($expect, $Routing->getRoutes());
     }
 
     //Test setRoutes with all routes valid.
@@ -135,9 +135,9 @@ class RoutingTest extends TestCase
         );
 
         $Routing = new Routing();
-        $resultRoutes = $Routing->setRoutes($input)->getRoutes();
+        $Routing->setRoutes($input);
 
-        $this->assertEquals($expect, $resultRoutes);
+        $this->assertEquals($expect, $Routing->getRoutes());
     }
 
     /* ------------------------------------------
@@ -497,7 +497,7 @@ class RoutingTest extends TestCase
     }
 
     /* ------------------------------------------
-            set and get RequestUri METHOD TESTS!
+         set and get RequestUri METHOD TESTS!
     ------------------------------------------ */
     public function testSetRequestUri()
     {

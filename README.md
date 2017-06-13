@@ -32,8 +32,8 @@ See an example with **array**:
 
 ```PHP
 <?php
-//Into web/index.php.
 require_once "/vendor/autoload.php";
+use Routing\Routing;
 
 $Routing = new Routing();
 
@@ -48,7 +48,7 @@ $Routing->setRoutes(array(
 ));
 
 if ($routeMatch = $Routing->matchRoute()) {
-    echo "See my data!";
+    echo "See that" . "<br>";
     var_dump($routeMatch);
 } else {
     echo "mmm.. what's wrong?";
@@ -60,15 +60,15 @@ See an example with **YML**:
 
 ```PHP
 <?php
-//Into web/index.php.
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once "/vendor/autoload.php";
+use Routing\Routing;
 
 $Routing = new Routing();
 
 $Routing->setRoutesFromYml(__DIR__, 'routes.yml');
 
 if ($routeMatch = $Routing->matchRoute()) {
-    echo "See my data!";
+    echo "See that" . "<br>";
     var_dump($routeMatch);
 } else {
     echo "mmm.. what's wrong?";
@@ -92,15 +92,15 @@ See an example with **XML**:
 
 ```PHP
 <?php
-//Into web/index.php.
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once "/vendor/autoload.php";
+use Routing\Routing;
 
 $Routing = new Routing();
 
 $Routing->setRoutesFromXml(__DIR__, 'routes.xml');
 
 if ($routeMatch = $Routing->matchRoute()) {
-    echo "See my data!";
+    echo "See that" . "<br>";
     var_dump($routeMatch);
 } else {
     echo "mmm.. what's wrong?";

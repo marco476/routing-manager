@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <root>
-    <node>
-        <expression>/</expression>
-        <controller>MyController</controller>
-        <action>MyAction</action>
-        <extra>Hello</extra>
-    </node>
-    <node>
-        <expression>/contacts</expression>
-        <controller>MyController2</controller>
-        <params>Hello1</params>
-        <extra>Hello2</extra>
-    </node>
+	<node>
+		<expression>/</expression>
+		<controller>MyController</controller>
+		<action>MyAction</action>
+		<extra>Hello</extra>
+	</node>
+	<node>
+		<expression>/contacts</expression>
+		<controller>MyController2</controller>
+		<params>Hello1</params>
+		<extra>Hello2</extra>
+	</node>
 </root>

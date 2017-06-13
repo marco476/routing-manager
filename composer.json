@@ -1,30 +1,30 @@
 {
-    "name": "marco476/routing-manager",
-    "type": "library",
-    "description": "PHP performance-oriented routing manager",
-    "keywords": [
-        "routing",
-        "match route",
-        "generate routes",
-        "route manager"
-    ],
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Marco Cante",
-            "email": "info@marcocante.it"
-        }
-    ],
-    "minimum-stability": "stable",
-    "require": {
-        "php": ">=5.6"
-    },
-    "autoload": {
-        "psr-4": {
-            "": "src/"
-        }
-    },
-    "require-dev": {
-        "phpunit/phpunit": "^5.0"
-    }
+	"name": "marco476/routing-manager",
+	"type": "library",
+	"description": "PHP performance-oriented routing manager",
+	"keywords": [
+		"routing",
+		"match route",
+		"generate routes",
+		"route manager"
+	],
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Marco Cante",
+			"email": "info@marcocante.it"
+		}
+	],
+	"minimum-stability": "stable",
+	"require": {
+		"php": ">=5.6"
+	},
+	"autoload": {
+		"psr-4": {
+			"": "src/"
+		}
+	},
+	"require-dev": {
+		"phpunit/phpunit": "^5.0"
+	}
 }
